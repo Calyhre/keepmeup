@@ -11,7 +11,7 @@ namespace :ping do
     begin
       res = Net::HTTP.get_response(uri)
 
-      raise("#{ENV['URLS_LIST_URL']} invalid or unavailable") if res.code.to_i != 200
+      raise("#{ENV['URLS_LIST_URL']} invalid or unavailable (#{res.code.to_i})") if res.code.to_i != 200
 
       @list = []
       res.body.lines.each do |line|

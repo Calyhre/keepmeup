@@ -1,4 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rainbow', '~> 1.1.4'
+gem 'sidekiq'
+gem 'unicorn'
+
+gem 'sinatra'
+gem 'redis'
+
+
+gem 'active_support'
+gem 'clockwork'
+gem 'haml'
 gem 'httparty'

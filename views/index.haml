@@ -1,0 +1,4 @@
+%ul
+  - @apps.each do |app|
+    %li= "#{app[:name]} : #{app[:status]}"
+

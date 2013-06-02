@@ -1,12 +1,39 @@
 KeepMeUp
 ========
 
-Rake task to be used on a Heroku instance with a dyno. Its purpose is to ping other instance to monitor their states or wake them up.
-
-To be used, you need to provide the url of a text file containing the list of all your Heroku app that you want to monitor. Why not a raw Gist file for example ;)
-
-Provide the url with `URLS_LIST_URL` environment variable.
-For the moment, you need to add scheduler add-on to your Heroku instance.
+KeepMeUp give you an easy way to monitor your Heroku apps with a single free instance.
+It use the 750 free dyno hours and redis-to-go:nano
 
 
-Just add a `rake ping:all` task to your scheduler every 10 minutes.
+Getting started
+---------------
+
+* Clone this repo
+* Create an Heroku app : `heroku create --stack cedar`
+* Setup some env vars : See [configuration](#configuration)
+* Deploy on Heroku : `git push heroku master`
+* Enjoy : `heroku open`
+
+
+Configuration
+-------------
+
+```shell
+heroku config:set OPTIONS=value
+```
+
+#### Available options :
+
+* `APP_LIST` Your apps list separate by comma
+* `AUTH_USER`*
+* `AUTH_PASSWD`*
+* `FORCE_NON_SECURE` If you want to grant access to anonymous
+
+> \* Needed unless you set `FORCE_NON_SECURE`
+
+#### Exemple :
+
+```shell
+heroku config:set APP_LIST=app1,app2
+```
+

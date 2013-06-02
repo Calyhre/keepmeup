@@ -10,6 +10,8 @@ Getting started
 
 * Clone this repo
 * Create an Heroku app : `heroku create --stack cedar`
+* Add free Redis-to-go : `heroku addons:add redistogo:nano`
+* Scale web dyno : `heroku ps:scale web=1`
 * Setup some env vars : See [configuration](#configuration)
 * Deploy on Heroku : `git push heroku master`
 * Enjoy : `heroku open`

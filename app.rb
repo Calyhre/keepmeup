@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'compass'
 require 'sinatra'
 require 'redis'
 require 'sidekiq'
@@ -14,12 +15,26 @@ $apps  = ENV['APP_LIST'].present? ? ENV['APP_LIST'].split(',') : []
 class App < Sinatra::Application
   include Sidekiq::Worker
 
+  set :app_file, __FILE__
+  set :root, File.dirname(__FILE__)
+  set :views, 'views'
+  set :public_dir, 'public'
+
+  configure do
+    Compass.add_project_configuration(File.join(Sinatra::Application.root, 'config', 'compass.rb'))
+  end
+
   get '/' do
     @apps = []
     $apps.each do |app|
-      @apps << { name: app, status: $redis.get("app_#{app}_status") }
+      @apps << { name: app, status: $redis.get("app_#{app}_status").to_i }
     end
     haml :index
+  end
+
+  get '/stylesheets/:name.css' do
+    content_type 'text/css', charset: 'utf-8'
+    sass(:"stylesheets/#{params[:name]}", Compass.sass_engine_options )
   end
 
   def self.ping_all
@@ -55,5 +70,9 @@ class App < Sinatra::Application
       sleep 30
       return exit
     end
+  end
+
+  def self.version
+    '1.0.0'
   end
 end

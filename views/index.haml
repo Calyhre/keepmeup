@@ -1,4 +1,64 @@
-%ul
-  - @apps.each do |app|
-    %li= "#{app[:name]} : #{app[:status]}"
+!!! 5
+%html{ lang: 'en' }
+  %head
+    %meta{ charset: 'utf-8' }
+    %title Keep Me Up
+    %link{ href: '/vendor/bootstrap/css/bootstrap.min.css', rel: 'stylesheet', type: 'text/css' }
+    %link{ href: '/vendor/bootstrap/css/bootstrap-responsive.min.css', rel: 'stylesheet', type: 'text/css' }
+    %link{ href: '/vendor/font-awesome/css/font-awesome.min.css', rel: 'stylesheet', type: 'text/css' }
+    %link{ href: '/stylesheets/base.css', rel: 'stylesheet', type: 'text/css' }
+  %body
+    #wrap
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          .container
+            %a.brand
+              %i.icon-bar-chart
+              Keep Me Up
+
+      %header
+
+      .container
+        .span6.well.well-small
+          %h3 Your apps status
+          %table.table
+            %thead
+              %tr
+                %th
+                  App
+                %th
+                  Status
+            %tbody
+              - @apps.each do |app|
+                %tr
+                  %td
+                    %a{ href: "http://#{app[:name]}.herokuapp.com" }= app[:name]
+
+                  - if app[:status] == 0 || app[:status] >= 500
+                    %td.text-error{ data: { toggle: 'tooltip', placement: 'left', 'original-title' => "HTTP Status code : #{app[:status]}" } }
+                      %i.icon-ban-circle
+                      = "Unreachable !"
+                  - elsif app[:status] < 400
+                    %td.text-success{ data: { toggle: 'tooltip', placement: 'left', 'original-title' => "HTTP Status code : #{app[:status]}" } }
+                      %i.icon-ok
+                      = "App up and running"
+                  - else
+                    %td.text-warning{ data: { toggle: 'tooltip', placement: 'left', 'original-title' => "HTTP Status code : #{app[:status]}" } }
+                      %i.icon-warning-sign
+                      = "Errors !"
+      #push
+
+    %footer#footer
+      .container
+        %p.text-center
+          %i.icon-github
+          %a{ href: 'http://github.com/Calyhre/keepmeup' } KeepMeUp
+          = "#{App.version}"
+          \/ © 2013
+          %a{ href: 'https://twitter.com/Calyhre' }Calyhre
+
+
+    %script{ type: "text/javascript", src: "/vendor/jquery.min.js" }
+    %script{ type: "text/javascript", src: "/vendor/bootstrap/js/bootstrap.min.js" }
+    %script{ type: "text/javascript", src: "/javascripts/base.js" }
 

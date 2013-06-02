@@ -7,7 +7,8 @@ require 'clockwork'
 require 'httparty'
 require 'haml'
 
-$redis = Redis.connect
+uri = URI.parse(ENV["REDISTOGO_URL"])
+$redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 $apps  = ENV['APP_LIST'].present? ? ENV['APP_LIST'].split(',') : []
 
 class App < Sinatra::Application

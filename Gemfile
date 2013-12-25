@@ -4,6 +4,8 @@ ruby '2.0.0'
 gem 'rails', '4.0.2'
 gem 'unicorn'
 gem 'pg'
+gem 'sidekiq'
+gem 'clockwork'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/Calyhre/act_as_time_as_boolean.git
+  revision: 116bd4381dbcf55fae6aef1d997579b7cc76ed6d
+  branch: feature_scopes
+  specs:
+    act_as_time_as_boolean (0.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -50,11 +57,19 @@ GEM
     debugger-ruby_core_source (1.2.4)
     dotenv (0.9.0)
     erubis (2.7.0)
+    excon (0.25.3)
     execjs (2.0.2)
+    font-awesome-sass (4.0.2)
+      sass-rails (>= 3.1.1)
     foreman (0.63.0)
       dotenv (>= 0.7)
       thor (>= 0.13.6)
+    heroku-api (0.3.15)
+      excon (~> 0.25.1)
     hike (1.2.3)
+    httparty (0.12.0)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.9)
     json (1.8.1)
     kgio (2.8.1)
@@ -64,6 +79,7 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.8.2)
+    multi_xml (0.5.5)
     pg (0.17.1)
     polyglot (0.3.3)
     rack (1.5.2)
@@ -137,10 +153,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  act_as_time_as_boolean!
   clockwork
   coffee-rails (~> 4.0.0)
   debugger
+  font-awesome-sass
   foreman
+  heroku-api
+  httparty
   pg
   rails (= 4.0.2)
   sass-rails (~> 4.0.0)

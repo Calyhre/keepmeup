@@ -14,7 +14,7 @@ before_fork do |server, worker|
 
   t.abort_on_exception = true
 
-   @clock_pid   ||= spawn("bundle exec clockwork config/clock.rb")
+   @clock_pid   ||= spawn("bundle exec clockwork config/clock.rb") unless ENV['RAILS_ENV'] = 'development'
 end
 
 after_fork do |server, worker|

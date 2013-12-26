@@ -26,6 +26,7 @@ gem 'uglifier', '>= 1.3.0'
 group :development do
   gem 'debugger'
   gem 'foreman'
+  gem 'quiet_assets'
 end
 
 group :production do

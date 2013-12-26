@@ -1,22 +1,23 @@
-li.app id=app.name
-  section.form
-    .link
-      = link_to app.web_url, target: '_blank' do
-        i.fa.fa-link
-      = app.tooltip :web_url
-    = form_for app, namespace: app.name do |f|
-      .checkbox
-        = f.check_box :maintenance, onclick: "this.form.submit();"
-        = f.label :maintenance do
-          i.fa.fa-wrench
-        = app.tooltip :maintenance
-      .checkbox
-        = f.check_box :ping_disabled, onclick: "this.form.submit();"
-        = f.label :ping_disabled do
-          i.fa.fa-moon-o
-        = app.tooltip :ping_disabled
-  section.infos
-    = app.status_icon
-    span.name= app.name
-    = app.locked_icon
-    = app.region_badge
+- cache app do
+  li.app id=app.name
+    section.form
+      .link
+        = link_to app.web_url, target: '_blank' do
+          i.fa.fa-link
+        = app.tooltip :web_url
+      = form_for app, namespace: app.name do |f|
+        .checkbox
+          = f.check_box :maintenance, onclick: "this.form.submit();"
+          = f.label :maintenance do
+            i.fa.fa-wrench
+          = app.tooltip :maintenance
+        .checkbox
+          = f.check_box :ping_disabled, onclick: "this.form.submit();"
+          = f.label :ping_disabled do
+            i.fa.fa-moon-o
+          = app.tooltip :ping_disabled
+    section.infos
+      = app.status_icon
+      span.name= app.name
+      = app.locked_icon
+      = app.region_badge

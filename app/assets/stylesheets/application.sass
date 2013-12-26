@@ -1,0 +1,63 @@
+//= require font-awesome
+//= require_self
+//= require_tree .
+
+@import "compass/css3/transform"
+@import "compass/css3/transition"
+@import "mixins"
+
+*
+  box-sizing: border-box
+  -webkit-font-smoothing: antialiased
+
+a
+  text-decoration: none
+  color: inherit
+  &:hover
+    color: inherit
+
+body, html
+  background: #282828
+  color: #999
+  font-family: Arial
+  margin: 0
+  padding: 0
+  overflow: auto
+
+body
+  padding: 0 10px 10px
+
+.container
+  max-width: 800px
+  margin: auto
+
+#header
+  height: 50px
+  line-height: 50px
+  margin-bottom: 20px
+
+.tooltip
+  position: relative
+  visibility: hidden
+  opacity: 0
+  pointer-events: none
+  background-color: #999
+  color: #282828
+  padding: 0 8px
+  line-height: 20px
+  font-size: 12px
+  position: absolute
+  width: auto
+  white-space: nowrap
+  left: 50%
+  bottom: 100%
+  border-radius: 2px
+  +transform(translateX(-50%))
+  +transition(opacity 0.5s)
+  &:after
+    position: absolute
+    content: ""
+    +triangle("down", 6px, #999)
+    bottom: -12px
+    left: 50%
+    +transform(translateX(-50%))

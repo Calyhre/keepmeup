@@ -1,0 +1,125 @@
+// Place all the styles related to the Apps controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "compass/css3/transform"
+@import "compass/css3/transition"
+@import "mixins"
+
+section#apps
+  header
+    h2
+      margin: 0
+      height: 50px
+      line-height: 50px
+      padding: 0 20px
+      background-color: #1E1E1E
+  #apps-list
+    list-style: none
+    padding: 0
+    margin: 0
+  .app
+    padding: 0
+    height: 50px
+    line-height: 50px
+    clear: both
+
+    background:
+      image: -webkit-linear-gradient(left, #282828,#1E1E1E 20%,#1E1E1E 80%,#282828)
+      image: -moz-linear-gradient(left, #282828,#1E1E1E 20%,#1E1E1E 80%,#282828)
+      image: -o-linear-gradient(left, #282828,#1E1E1E 20%,#1E1E1E 80%,#282828)
+      image: linear-gradient(left, #282828,#1E1E1E 20%,#1E1E1E 80%,#282828)
+      position: top center
+      repeat: no-repeat
+      size: 100% 1px
+    &:last-child
+      border-bottom: none
+
+    &:hover
+      background-color: lighten(#1E1E1E, 5w)
+
+    i.fa
+      line-height: 50px
+      width: 50px
+      text-align: center
+      vertical-align: middle
+      font-size: 24px
+
+  section.infos
+    white-space: nowrap
+    text-overflow: ellipsis
+    i.fa
+      position: relative
+      &.fa-check
+        color: #9DC261
+      &.fa-wrench
+        color: #6797B8
+      &.fa-exclamation
+        color: #D3493A
+      &.fa-lock
+        width: auto
+        padding: 0
+        margin: 0 5px
+        font-size: 16px
+        color: #DCBF6A
+        &:hover
+          .tooltip
+            visibility: visible
+            opacity: 1
+    .name
+      padding-right: 5px
+      overflow: hidden
+      white-space: nowrap
+      display: inline-block
+      vertical-align: middle
+      text-overflow: ellipsis
+    .badge
+      display: inline-block
+      vertical-align: middle
+      height: 16px
+      line-height: 16px
+      font-size: 10px
+      padding: 0 4px
+      margin: 0 5px
+      background-color: #444
+      border-radius: 2px
+      color: #1E1E1E
+      text-transform: uppercase
+      letter-spacing: 1px
+      font-weight: bold
+  section.form
+    width: 150px
+    float: right
+    form
+      display: inline-block
+    .checkbox, .link
+      position: relative
+      display: inline-block
+      vertical-align: middle
+      &:hover
+        .tooltip
+          visibility: visible
+          opacity: 1
+    .link
+      color: #444
+      &:hover
+        color: #666
+    input[type="checkbox"]
+      display: none
+      & + label
+        cursor: pointer
+
+      &:empty + label
+        color: #444
+        &:hover
+          color: #666
+      &:checked + label
+        color: #999
+        &:hover
+          color: #999
+
+@media screen and (max-width: 360px)
+  section#apps
+    section.infos
+      .name
+        max-width: 86px

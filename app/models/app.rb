@@ -18,7 +18,7 @@ class App < ActiveRecord::Base
   after_save :update_maintenance
 
   def update_maintenance
-    return if maintenance_was.nil?
+    return if maintenance_was.nil? || not(maintenance_changed?)
 
     he = Heroku::API.new
     he.post_app_maintenance name, (maintenance ? 1 : 0)

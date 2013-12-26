@@ -48,7 +48,6 @@ class App < ActiveRecord::Base
 
     App.not_in_maintenance.each do |app|
       heroku_processes = he.get_ps(app.name).body
-      heroku_calls += 1
 
       app.processes = heroku_processes.map do |heroku_process|
         process = HerokuProcess.find_or_create_by heroku_id: heroku_process['id']

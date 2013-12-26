@@ -47,15 +47,20 @@ class App < ActiveRecord::Base
     he = Heroku::API.new
 
     App.not_in_maintenance.each do |app|
-      heroku_processes = he.get_ps(app.name).body
+      begin
+        heroku_processes = he.get_ps(app.name).body
 
-      app.processes = heroku_processes.map do |heroku_process|
-        process = HerokuProcess.find_or_create_by heroku_id: heroku_process['id']
-        process.update_attributes prepare_heroku_process(heroku_process)
+        app.processes = heroku_processes.map do |heroku_process|
+          process = HerokuProcess.find_or_create_by heroku_id: heroku_process['id']
+          process.update_attributes prepare_heroku_process(heroku_process)
 
-        process
+          process
+        end
+        app.save
+      rescue Heroku::API::Errors::NotFound => e
+        # App does not exist anymore. Delete it
+        app.destroy
       end
-      app.save
     end
   rescue Heroku::API::Errors::RateLimitExceeded => e
     logger.error "Rate limit exceed !"

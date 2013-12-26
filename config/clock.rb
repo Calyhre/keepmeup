@@ -4,12 +4,15 @@ require_relative '../config/environment'
 require "clockwork"
 
 module Clockwork
-  every 2.minutes, 'App.retrieve_from_heroku' do
-    logs = App.retrieve_from_heroku
-    puts "#{App.count} apps retrieved after #{ logs[:calls] } calls. #{ logs[:remaining] } calls remaining for an hour."
+  every 10.minutes, 'Retrieve apps' do
+    App.retrieve_from_heroku
   end
 
-  every 5.minutes, 'App.ping_apps' do
+  every 2.minutes, 'Retrieve processes' do
+    App.retrieve_process_from_heroku
+  end
+
+  every 5.minutes, 'Ping apps' do
     App.ping_apps
   end
 end

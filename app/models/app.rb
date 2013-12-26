@@ -22,23 +22,32 @@ class App < ActiveRecord::Base
 
     he = Heroku::API.new
     he.post_app_maintenance name, (maintenance ? 1 : 0)
+  rescue Heroku::API::Errors::RateLimitExceeded => e
+    logger.error "Rate limit exceed !"
   end
 
   def self.retrieve_from_heroku
     heroku_calls = 0
 
     he = Heroku::API.new
+    heroku_apps = he.get_apps.body
 
-    request = he.get_apps
-    heroku_apps = request.body
-    heroku_calls += 1
-
-    heroku_apps.map do |heroku_app|
+    heroku_apps.each do |heroku_app|
       app = App.find_or_create_by name: heroku_app['name']
       app.update_attributes prepare_heroku_app(heroku_app)
 
-      request = he.get_ps(app.name)
-      heroku_processes = request.body
+      maintenance = he.get_app_maintenance(app.name).body['maintenance']
+      app.update_attribute :maintenance, maintenance
+    end
+  rescue Heroku::API::Errors::RateLimitExceeded => e
+    logger.error "Rate limit exceed !"
+  end
+
+  def self.retrieve_process_from_heroku
+    he = Heroku::API.new
+
+    App.not_in_maintenance.each do |app|
+      heroku_processes = he.get_ps(app.name).body
       heroku_calls += 1
 
       app.processes = heroku_processes.map do |heroku_process|
@@ -47,16 +56,10 @@ class App < ActiveRecord::Base
 
         process
       end
-
-      request = he.get_app_maintenance(app.name)
-      maintenance = request.body['maintenance']
-      heroku_calls += 1
-
-      app.update_attribute :maintenance, maintenance
-      app
+      app.save
     end
-
-    { calls: heroku_calls, remaining: request.headers['X-RateLimit-Remaining'] }
+  rescue Heroku::API::Errors::RateLimitExceeded => e
+    logger.error "Rate limit exceed !"
   end
 
   def self.ping_apps

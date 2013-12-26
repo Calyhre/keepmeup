@@ -2,5 +2,4 @@ section#apps
   header
     h2 Apps
   ul#apps-list
-    - @apps.each do |app|
-      li.app= render partial: 'app', locals: { app: app }
+    = render partial: 'app', collection: @apps, as: :app

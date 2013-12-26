@@ -1,9 +1,11 @@
 class App < ActiveRecord::Base
+  include ActiveModel::Dirty
   include ActAsTimeAsBoolean
 
   APP_FIELDS = %w( dynos workers repo_size slug_size stack requested_stack create_status repo_migrate_status owner_delinquent owner_email owner_name web_url git_url buildpack_provided_description tier region )
 
-  PROCESS_FIELDS = %w( pretty_state process state command elapsed transitioned_at release action size )
+  PROCESS_FIELDS = %w( pretty_state process state heroku_type command elapsed transitioned_at release action size )
+  PROCESS_FIELDS_PREFIXED = %w( type )
 
   has_many :processes, primary_key: 'name', foreign_key: 'app_name', class_name: HerokuProcess, dependent: :destroy
 
@@ -12,6 +14,15 @@ class App < ActiveRecord::Base
   scope :not_in_maintenance, -> { where( maintenance: false ) }
   scope :in_maintenance, -> { where( maintenance: true ) }
   scope :pingable, -> { ping_enabled.not_in_maintenance }
+
+  after_save :update_maintenance
+
+  def update_maintenance
+    return if maintenance_was.nil?
+
+    he = Heroku::API.new
+    he.post_app_maintenance name, (maintenance ? 1 : 0)
+  end
 
   def self.retrieve_from_heroku
     heroku_calls = 0
@@ -52,7 +63,7 @@ class App < ActiveRecord::Base
     self.pingable.map do |app|
       begin
         res = HTTParty.head app.web_url, { timeout: 30 }
-        res.code
+        app.update_attribute :http_status, res.code
       rescue Timeout::Error => e
         # TODO
       rescue Exception => e
@@ -68,6 +79,13 @@ class App < ActiveRecord::Base
   end
 
   def self.prepare_heroku_process(process)
-    process.reject{ |k, v| not k.in? PROCESS_FIELDS }
+    process.inject({}){ |option, (k,v)|
+      if k.in?(PROCESS_FIELDS_PREFIXED)
+        option["heroku_#{k}"] = v
+      else
+        option[k] = v
+      end
+      option
+    }.reject{ |k, v| not(k.in? PROCESS_FIELDS) }
   end
 end

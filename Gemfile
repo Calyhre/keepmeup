@@ -9,6 +9,7 @@ gem 'clockwork'
 
 gem 'heroku-api'
 gem 'httparty'
+gem 'draper', '~> 1.3'
 gem 'act_as_time_as_boolean', github: 'Calyhre/act_as_time_as_boolean', branch: 'feature_scopes'
 
 # Use ActiveModel has_secure_password
@@ -18,6 +19,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'slim-rails'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'font-awesome-sass'
+gem 'compass-rails'
 
 gem 'uglifier', '>= 1.3.0'
 

@@ -23,6 +23,8 @@ class CreateApps < ActiveRecord::Migration
       t.boolean   :maintenance
       t.datetime  :ping_disabled_at
 
+      t.integer   :http_status
+
       t.timestamps
     end
 

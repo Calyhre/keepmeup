@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20131225160144) do
     t.string   "region"
     t.boolean  "maintenance"
     t.datetime "ping_disabled_at"
+    t.integer  "http_status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -46,6 +47,7 @@ ActiveRecord::Schema.define(version: 20131225160144) do
     t.string   "heroku_id"
     t.string   "app_name"
     t.string   "pretty_state"
+    t.string   "heroku_type"
     t.string   "process"
     t.string   "state"
     t.string   "command"

@@ -5,6 +5,7 @@ class CreateHerokuProcesses < ActiveRecord::Migration
       t.string    :heroku_id
       t.string    :app_name
       t.string    :pretty_state
+      t.string    :heroku_type
       t.string    :process
       t.string    :state
       t.string    :command

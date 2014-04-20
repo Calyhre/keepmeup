@@ -22,6 +22,8 @@ class App < ActiveRecord::Base
 
     he = Heroku::API.new
     he.post_app_maintenance name, (maintenance ? 1 : 0)
+  rescue Heroku::API::Errors::NotFound => e
+    self.destroy
   rescue Heroku::API::Errors::RateLimitExceeded => e
     logger.error "Rate limit exceed !"
   end

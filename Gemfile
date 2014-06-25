@@ -1,19 +1,15 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.1.0'
 
 gem 'rails', '4.0.2'
 gem 'unicorn'
 gem 'pg'
-gem 'sidekiq'
 gem 'clockwork'
 
 gem 'heroku-api'
 gem 'httparty'
 gem 'draper', '~> 1.3'
-gem 'act_as_time_as_boolean', github: 'Calyhre/act_as_time_as_boolean', branch: 'feature_scopes'
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'act_as_time_as_boolean'
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'slim-rails'
@@ -24,9 +20,11 @@ gem 'compass-rails'
 gem 'uglifier', '>= 1.3.0'
 
 group :development do
-  gem 'debugger'
   gem 'foreman'
-  gem 'quiet_assets'
+  gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
+  gem 'byebug'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :production do

@@ -2,18 +2,16 @@ doctype 5
 html
   head
     title Keepmeup
-    meta name='viewport' content='width=device-width; initial-scale=1, maximum-scale=1'
+
+    meta name="viewport" content="width=device-width; initial-scale=1, maximum-scale=1"
+    meta name="apple-mobile-web-app-capable" content="yes"
+    meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"
+    meta name="mobile-web-app-capable" content="yes"
+
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
 
   body
-    header#header
-      .container
-        nav
-          = link_to 'KeepMeUp', root_url, class: 'logo'
     .container
       = yield
-
-
-

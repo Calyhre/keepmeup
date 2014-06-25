@@ -7,17 +7,33 @@
 @import "mixins"
 
 section#apps
+  width: 100%
+  height: 100%
+  .webview &
+    header
+      position: fixed
+      top: 0
+      padding-top: 20px
+      z-index: 1
+    #apps-list
+      margin-top: 70px
   header
+    background-color: #1E1E1E
+    width: 100%
     h2
       margin: 0
+      width: 100%
       height: 50px
       line-height: 50px
       padding: 0 20px
-      background-color: #1E1E1E
   #apps-list
     list-style: none
     padding: 0
     margin: 0
+    max-width: 100%
+    max-height: 100%
+    overflow-y: scroll
+    -webkit-overflow-scrolling: touch
   .app
     padding: 0
     height: 50px

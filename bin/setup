@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Set up Ruby dependencies
+bundle install
+echo ''
+
+# Set up database
+rake db:create db:migrate
+echo ''
+
+# Set up configurable environment variables for Foreman
+if [ ! -f .env ]; then
+  echo 'RACK_ENV=development' > .env
+fi
+
+if [ -f Procfile.development ]
+then
+  echo 'foreman start -f Procfile.development'
+else
+  echo 'Run foreman start'
+fi

@@ -1,28 +1,18 @@
-== README
+# KeepMeUp
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+KeepMeUp is a simple application to quickly manage your Heroku apps.
 
-Things you may want to cover:
+#### With it you can :
 
-* Ruby version
+* Keep your application awake
+* Put it in maintenance mode within a click
 
-* System dependencies
+## Get started
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+1. Clone this repo `git clone https://github.com/Calyhre/keepmeup.git`
+2. Create an heroku app `heroku apps:create`
+3. Set up your Heroku API key `heroku config:set HEROKU_API_KEY`
+4. Set up your authentification credentials `heroku config:set HTTP_AUTH=login:password`
+5. Deploy `git push heroku`
+6. Migrate `heroku run rake db:migrate`
+7. Enjoy ! `heroku open`

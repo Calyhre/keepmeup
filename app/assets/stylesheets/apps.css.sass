@@ -18,21 +18,24 @@ section#apps
     #apps-list
       margin-top: 70px
   header
-    background-color: #1E1E1E
+    position: fixed
+    top: 0
+    left: 0
+    background-color: rgba(#1E1E1E, .9)
     width: 100%
+    z-index: 99999
     h2
-      margin: 0
-      width: 100%
+      margin: 0 auto
+      max-width: 800px
       height: 50px
       line-height: 50px
       padding: 0 20px
   #apps-list
     list-style: none
     padding: 0
-    margin: 0
+    margin: 50px 0 0 0
     max-width: 100%
     max-height: 100%
-    overflow-y: scroll
     -webkit-overflow-scrolling: touch
   .app
     padding: 0

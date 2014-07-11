@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Set up Ruby dependencies
+bundle install
+echo ''
+
+# Set up database
+rake db:create db:migrate db:test:prepare
+echo ''
+
+# Install Pow:
+if [ ! -d ~/Library/Application\ Support/Pow ]; then
+  curl get.pow.cx | sh
+fi
+
+# Set up configurable environment variables for Foreman
+if [ ! -f .env ]; then
+  echo 'RACK_ENV=development' > .env
+fi
+
+# Set up DNS through Pow
+echo 5000 > ~/.pow/`basename $PWD`
+
+if [ -f Procfile.development ]
+then
+  echo 'foreman start -f Procfile.development'
+else
+  echo 'Run foreman start'
+fi
+
+echo "http://`basename $PWD`.dev"

@@ -32,14 +32,17 @@ class App < ActiveRecord::Base
     heroku_calls = 0
 
     he = Heroku::API.new
+    me = he.get_user.body['email']
     heroku_apps = he.get_apps.body
 
     heroku_apps.each do |heroku_app|
-      app = App.find_or_create_by name: heroku_app['name']
-      app.update_attributes prepare_heroku_app(heroku_app)
+      if heroku_app['owner_email'] == me
+        app = App.find_or_create_by name: heroku_app['name']
+        app.update_attributes prepare_heroku_app(heroku_app)
 
-      maintenance = he.get_app_maintenance(app.name).body['maintenance']
-      app.update_attribute :maintenance, maintenance
+        maintenance = he.get_app_maintenance(app.name).body['maintenance']
+        app.update_attribute :maintenance, maintenance
+      end
     end
   rescue Heroku::API::Errors::RateLimitExceeded => e
     logger.error "Rate limit exceed !"

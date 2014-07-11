@@ -5,7 +5,7 @@ bundle install
 echo ''
 
 # Set up database
-rake db:create db:migrate db:test:prepare
+rake db:create db:migrate
 echo ''
 
 # Set up configurable environment variables for Foreman

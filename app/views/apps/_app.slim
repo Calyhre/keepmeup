@@ -6,6 +6,7 @@
           i.fa.fa-link
         = app.tooltip :web_url
       = form_for app, namespace: app.name do |f|
+        = f.hidden_field :authenticity_token, value: form_authenticity_token
         .checkbox
           = f.check_box :maintenance, onclick: "this.form.submit();"
           = f.label :maintenance do

@@ -1,6 +1,9 @@
 class App < ActiveRecord::Base
   include ActiveModel::Dirty
   include ActAsTimeAsBoolean
+  include HTTParty
+
+  http_proxy *ENV['PROXY'].split(':') if ENV['PROXY']
 
   APP_FIELDS = %w( dynos workers repo_size slug_size stack requested_stack create_status repo_migrate_status owner_delinquent owner_email owner_name web_url git_url buildpack_provided_description tier region )
 

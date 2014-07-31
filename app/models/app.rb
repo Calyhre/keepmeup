@@ -40,10 +40,11 @@ class App < ActiveRecord::Base
       next unless heroku_app['owner_email'] == me
 
       app = App.find_or_create_by name: heroku_app['name']
-      app.update_attributes prepare_heroku_app(heroku_app)
-
       maintenance = he.get_app_maintenance(app.name).body['maintenance']
-      app.update_attribute :maintenance, maintenance
+      app_attributes = prepare_heroku_app(heroku_app).merge maintenance: maintenance
+
+      app.update_attributes app_attributes
+      app.touch
     end
 
     not_updated_since(start_retrieving_at).destroy_all

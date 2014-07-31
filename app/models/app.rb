@@ -22,19 +22,15 @@ class App < ActiveRecord::Base
   after_save :update_maintenance
 
   def update_maintenance
-    return if maintenance_was.nil? || not(maintenance_changed?)
+    return if maintenance_was.nil? || !maintenance_changed?
 
     he = Heroku::API.new
     he.post_app_maintenance name, (maintenance ? 1 : 0)
-  rescue Heroku::API::Errors::NotFound => e
-    self.destroy
   rescue Heroku::API::Errors::RateLimitExceeded => e
-    logger.error "Rate limit exceed !"
+    logger.error 'Rate limit exceed !'
   end
 
   def self.retrieve_from_heroku
-    heroku_calls = 0
-
     he = Heroku::API.new
     me = he.get_user.body['email']
     heroku_apps = he.get_apps.body
@@ -69,19 +65,19 @@ class App < ActiveRecord::Base
           process
         end
         app.save
-      rescue Heroku::API::Errors::NotFound => e
+      rescue Heroku::API::Errors::NotFound
         # App does not exist anymore. Delete it
         app.destroy
       end
     end
-  rescue Heroku::API::Errors::RateLimitExceeded => e
-    logger.error "Rate limit exceed !"
+  rescue Heroku::API::Errors::RateLimitExceeded
+    logger.error 'Rate limit exceed !'
   end
 
   def self.ping_apps
-    self.pingable.map do |app|
+    pingable.map do |app|
       begin
-        res = HTTParty.head app.web_url, { timeout: 30 }
+        res = HTTParty.head app.web_url, timeout: 30
         app.update_attribute :http_status, res.code
       rescue Timeout::Error => e
         # TODO
@@ -94,7 +90,7 @@ class App < ActiveRecord::Base
   private
 
   def self.prepare_heroku_app(app)
-    app.reject{ |k, v| not k.in? APP_FIELDS }
+    app.reject { |k, _v| !k.in? APP_FIELDS }
   end
 
   def self.prepare_heroku_process(process)
@@ -105,6 +101,6 @@ class App < ActiveRecord::Base
         option[k] = v
       end
       option
-    }.reject{ |k, v| not(k.in? PROCESS_FIELDS) }
+    }.reject{ |k, _v| !k.in? PROCESS_FIELDS }
   end
 end

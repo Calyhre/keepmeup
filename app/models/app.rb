@@ -14,6 +14,7 @@ class App < ActiveRecord::Base
 
   time_as_boolean :ping_disabled, opposite: :ping_enabled
 
+  scope :not_updated_since, ->(since) { where 'updated_at < ?', since }
   scope :not_in_maintenance, -> { where( maintenance: false ) }
   scope :in_maintenance, -> { where( maintenance: true ) }
   scope :pingable, -> { ping_enabled.not_in_maintenance }
@@ -37,6 +38,7 @@ class App < ActiveRecord::Base
     he = Heroku::API.new
     me = he.get_user.body['email']
     heroku_apps = he.get_apps.body
+    start_retrieving_at = Time.current
 
     heroku_apps.each do |heroku_app|
       if heroku_app['owner_email'] == me
@@ -47,8 +49,10 @@ class App < ActiveRecord::Base
         app.update_attribute :maintenance, maintenance
       end
     end
-  rescue Heroku::API::Errors::RateLimitExceeded => e
-    logger.error "Rate limit exceed !"
+
+    not_updated_since(start_retrieving_at).destroy_all
+  rescue Heroku::API::Errors::RateLimitExceeded
+    logger.error 'Rate limit exceed !'
   end
 
   def self.retrieve_process_from_heroku

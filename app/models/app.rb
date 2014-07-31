@@ -41,13 +41,13 @@ class App < ActiveRecord::Base
     start_retrieving_at = Time.current
 
     heroku_apps.each do |heroku_app|
-      if heroku_app['owner_email'] == me
-        app = App.find_or_create_by name: heroku_app['name']
-        app.update_attributes prepare_heroku_app(heroku_app)
+      next unless heroku_app['owner_email'] == me
 
-        maintenance = he.get_app_maintenance(app.name).body['maintenance']
-        app.update_attribute :maintenance, maintenance
-      end
+      app = App.find_or_create_by name: heroku_app['name']
+      app.update_attributes prepare_heroku_app(heroku_app)
+
+      maintenance = he.get_app_maintenance(app.name).body['maintenance']
+      app.update_attribute :maintenance, maintenance
     end
 
     not_updated_since(start_retrieving_at).destroy_all

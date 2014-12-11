@@ -27,7 +27,7 @@ class App < ActiveRecord::Base
     he = Heroku::API.new
     he.post_app_maintenance name, (maintenance ? 1 : 0)
   rescue Heroku::API::Errors::RateLimitExceeded => e
-    logger.error 'Rate limit exceed !'
+    Rails.logger.error 'Rate limit exceed !'
   end
 
   def self.retrieve_from_heroku
@@ -49,7 +49,7 @@ class App < ActiveRecord::Base
 
     not_updated_since(start_retrieving_at).destroy_all
   rescue Heroku::API::Errors::RateLimitExceeded
-    logger.error 'Rate limit exceed !'
+    Rails.logger.error 'Rate limit exceed !'
   end
 
   def self.retrieve_process_from_heroku
@@ -72,7 +72,7 @@ class App < ActiveRecord::Base
       end
     end
   rescue Heroku::API::Errors::RateLimitExceeded
-    logger.error 'Rate limit exceed !'
+    Rails.logger.error 'Rate limit exceed !'
   end
 
   def self.ping_apps

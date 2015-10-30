@@ -4,7 +4,7 @@ KeepMeUp is a simple application to quickly manage your Heroku apps.
 
 #### With it you can :
 
-* Keep your application awake
+* Keep your application awake (be aware of the new heroku dyno pricing)
 * Put it in maintenance mode within a click
 
 ## Get started
